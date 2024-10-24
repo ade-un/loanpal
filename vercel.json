@@ -1,18 +1,19 @@
 {
     "version": 2,
     "builds": [
-      {
-        "src": "loan_management/wsgi.py",
-        "use": "@vercel/python"
-      }
+        {
+            "src": "loan_management/wsgi.py",
+            "use": "@vercel/python"
+        }
     ],
     "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "loan_management/wsgi.py"
-      }
-    ],
-    "outputDirectory": ".",  
-    "installCommand": "pip install -r requirements.txt" 
-  }
-  
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1" 
+        },
+        {
+            "src": "/(.*)",
+            "dest": "loan_management/wsgi.py"
+        }
+    ]
+}
