@@ -1,29 +1,20 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "loan_management/wsgi.py",
-            "use": "@vercel/python"
-        },
-        {
-            "src": "staticfiles/**/*",
-            "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/static/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "loan_management/wsgi.py"
-        }
+      {
+        "src": "loan_management/wsgi.py",
+        "use": "@vercel/python"
+      }
     ],
     "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/"
-        }
+      {
+        "source": "/static/(.*)",
+        "destination": "/static/$1"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "loan_management/wsgi.py"
+      }
     ]
-}
+  }
+  
