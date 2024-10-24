@@ -1,20 +1,6 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "loan_management/wsgi.py",
-        "use": "@vercel/python"
-      }
-    ],
     "rewrites": [
-      {
-        "source": "/static/(.*)",
-        "destination": "/static/$1"
-      },
-      {
-        "source": "/(.*)",
-        "destination": "loan_management/wsgi.py"
-      }
+      { "source": "/(.*)", "destination": "/" }
     ]
   }
   
