@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'  # Default to False in production
 
-ALLOWED_HOSTS = ['loanpal.vercel.app', 'loanpal-git-master-ade-uns-projects.vercel.app']
+ALLOWED_HOSTS = ['loanpal.vercel.app', 'loanpal-git-master-ade-uns-projects.vercel.app','127.0.0.1']
 
 # Application definition
 
@@ -80,12 +80,12 @@ WSGI_APPLICATION = 'loanpal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
-        'NAME': os.environ.get('DB_NAME', 'loan_db'),  # Get DB name from environment variable
-        'USER': os.environ.get('DB_USER', 'root'),  # Get DB user from environment variable
-        'PASSWORD': os.environ.get('DB_PASSWORD', 'oreoluwa'),  # Get DB password from environment variable
-        'HOST': os.environ.get('DB_HOST', 'localhost'),  # Get DB host from environment variable
-        'PORT': os.environ.get('DB_PORT', '3306'),  # Get DB port from environment variable
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'loan_db',
+        'USER': 'root',
+        'PASSWORD': 'oreoluwa',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
