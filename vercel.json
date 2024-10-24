@@ -4,16 +4,26 @@
         {
             "src": "loan_management/wsgi.py",
             "use": "@vercel/python"
+        },
+        {
+            "src": "staticfiles/**/*",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
         {
             "src": "/static/(.*)",
-            "dest": "/static/$1" 
+            "dest": "/static/$1"
         },
         {
             "src": "/(.*)",
             "dest": "loan_management/wsgi.py"
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
         }
     ]
 }

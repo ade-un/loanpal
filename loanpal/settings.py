@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'loanpal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'loan_db',
-        'USER': 'root',
-        'PASSWORD': 'oreoluwa',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
