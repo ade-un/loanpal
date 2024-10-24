@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'  # Default to False in production
 
-ALLOWED_HOSTS = ['loanpal.vercel.app', 'loanpal-git-master-ade-uns-projects.vercel.app','127.0.0.1']
+ALLOWED_HOSTS = ['loanpal.vercel.app', 'loanpal-git-master-ade-uns-projects.vercel.app','127.0.0.1','localhost']
 
 # Application definition
 

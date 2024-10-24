@@ -132,3 +132,7 @@ def change_loan_status(request, application_id, new_status):
         return redirect('home')
     except Application.DoesNotExist:
         raise Http404("Application not found")
+
+# Nonexistent view for demonstration
+def nonexistent_view(request):
+    return render(request, 'nonexistent_template.html')

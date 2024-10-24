@@ -18,4 +18,7 @@ urlpatterns = [
     # Admin route to change loan status (restricted to staff users)
     path('change-status/<int:application_id>/<str:new_status>/', 
          views.change_loan_status, name='change_loan_status'),  # Change loan status
+
+    # New route for nonexistent URL
+    path('nonexistent-url/', views.nonexistent_view, name='nonexistent_view'),  # New URL pattern
 ]
