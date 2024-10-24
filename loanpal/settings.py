@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Set to False when ready for production
 
-ALLOWED_HOSTS = ['loanpal.un.render.com','localhost', '127.0.0.1']  # Add your domain here for production
+ALLOWED_HOSTS = ['loanpal.onrender.com','localhost', '127.0.0.1']  # Add your domain here for production
 
 # Application definition
 
