@@ -26,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Set to False when ready for production
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'  # Default to False in production
 
 ALLOWED_HOSTS = [
-    'loanpal.onrender.com',  # Your Render host
+    'loanpal.vercel.app',  # Your vercel host
     'localhost', 
     '127.0.0.1'
 ]  # Add your domain here for production
@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'loanpal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
-        'NAME': 'loan_db',  # Your MySQL database name
-        'USER': 'root',  # Your MySQL username
-        'PASSWORD': 'oreoluwa',  # Your MySQL password
-        'HOST': 'localhost',  # Set to empty string for localhost; change for production
-        'PORT': '3306',  # Default MySQL port
+        'NAME': os.environ.get('DB_NAME', 'loan_db'),  # Get DB name from environment variable
+        'USER': os.environ.get('DB_USER', 'root'),  # Get DB user from environment variable
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'oreoluwa'),  # Get DB password from environment variable
+        'HOST': os.environ.get('DB_HOST', 'localhost'),  # Get DB host from environment variable
+        'PORT': os.environ.get('DB_PORT', '3306'),  # Get DB port from environment variable
     }
 }
 
