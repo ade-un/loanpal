@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv() 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +28,11 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-default-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Set to False when ready for production
 
-ALLOWED_HOSTS = ['loanpal.vercelapp','localhost', '127.0.0.1']  # Add your domain here for production
+ALLOWED_HOSTS = [
+    'loanpal.onrender.com',  # Your Render host
+    'localhost', 
+    '127.0.0.1'
+]  # Add your domain here for production
 
 # Application definition
 
@@ -38,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'loan_management',  # Your custom app
 ]
-
 
 # Custom user model
 AUTH_USER_MODEL = 'loan_management.CustomUser'  # Add this line
@@ -78,8 +84,12 @@ WSGI_APPLICATION = 'loanpal.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # SQLite database file
+        'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
+        'NAME': 'loan_db',  # Your MySQL database name
+        'USER': 'root',  # Your MySQL username
+        'PASSWORD': 'oreoluwa',  # Your MySQL password
+        'HOST': 'localhost',  # Set to empty string for localhost; change for production
+        'PORT': '3306',  # Default MySQL port
     }
 }
 
