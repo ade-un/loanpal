@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Loan Application System</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"> <!-- Updated Google Font -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Poppins', sans-serif; /* Updated font */
+            background: url('{% static "images/background.jpg" %}') no-repeat center center fixed; 
+            background-size: cover; 
+            background-color: rgba(240, 240, 240, 0.9); /* Light background for contrast */
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(96, 214, 235, 0.7); /* Adjusted for transparency */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid rgba(2, 16, 24, 0.884); /* Blue border */
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Increased shadow for depth */
+            padding: 40px; /* Increased padding */
+            position: relative;
+            margin-bottom: 20px; /* Space from footer */
+        }
+
+        .welcome-section {
+            margin-bottom: 30px; /* Increased margin */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px;
+            background: linear-gradient(135deg, #2600ffda, #0056b3); /* Gradient button */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Added transform effect */
+            font-weight: bold; /* Bold text for buttons */
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #0056b3, #003d80); /* Darker gradient on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        .status-btn {
+            background: rgba(14, 12, 128, 0.897); /* Updated to a calmer teal color */
+        }
+
+        .status-btn:hover {
+            background: rgb(14, 29, 235); /* Slightly darker teal on hover */
+        }
+
+        .logout-btn {
+            background: rgba(145, 18, 30, 0.9); /* Calmer red color */
+        }
+
+        .logout-btn:hover {
+            background: rgb(231, 11, 33); /* Slightly darker red on hover */
+        }
+
+        footer {
+            background-color: rgba(96, 214, 235, 0.685); /* Updated green color */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .additional-info {
+            margin-top: 10px;
+            padding: 10px;
+            text-align: center;
+            color: white; /* White text for visibility */
+            font-size: 0.9em; /* Smaller font size for additional info */
+            max-width: 600px; /* Limit width */
+            margin-left: auto; /* Centering */
+            margin-right: auto; /* Centering */
+        }
+
+        .feature {
+            margin: 20px 0;
+        }
+
+        .feature-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to the Loan Application System</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="welcome-section">
+                {% if user.is_authenticated %}
+                    <p>Hello, <strong>{{ user.username }}</strong>!</p>
+                {% else %}
+                    <p>Please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to continue.</p>
+                {% endif %}
+            </div>
+
+            <div class="feature">
+                {% if user.is_authenticated %}
+                    {% if loan %}
+                        <p>You have already applied for a loan.</p>
+                        <a href="{% url 'loan_status' %}" class="btn status-btn">Check Loan Status</a>
+                    {% else %}
+                        <p>You have not applied for a loan yet.</p>
+                        <a href="{% url 'apply_for_loan' %}" class="btn">Apply for a Loan</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            {% if user.is_authenticated %}
+                <!-- Logout Form -->
+                <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn logout-btn">Logout</button>
+                </form>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <p>© <span id="year"></span> Loan Management System. All Rights Reserved.</p>
+        <div class="additional-info">
+            <p>Easily track your loan status and manage your applications. Our streamlined process makes applying for a loan simple and hassle-free.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Auto-update the year in the footer
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('year').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

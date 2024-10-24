@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for a Loan</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('{% static "images/apply.jpg" %}') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #28a745;
+        }
+
+        fieldset {
+            border: 1px solid #28a745;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        legend {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Popup modal styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            z-index: 1000;
+        }
+
+        .popup.show {
+            display: block;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .popup-overlay.show {
+            display: block;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <h1>Loan Application</h1>
+            <p>Please provide accurate information to process your loan request efficiently.</p>
+        </div>
+
+        <form method="POST" class="loan-form" id="loanForm" action="{% url 'apply_for_loan' %}">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Employment Information</legend>
+                <div class="form-group">
+                    <label for="employer_name">Employer Name</label>
+                    <input type="text" id="employer_name" name="employer_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="job_title">Job Title</label>
+                    <input type="text" id="job_title" name="job_title" required>
+                </div>
+                <div class="form-group">
+                    <label for="monthly_income">Monthly Income (₦)</label>
+                    <input type="number" id="monthly_income" name="monthly_income" required>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Loan Details</legend>
+                <div class="form-group">
+                    <label for="amount">Loan Amount (₦)</label>
+                    <input type="number" id="amount" name="amount" required>
+                </div>
+                <div class="form-group">
+                    <label for="duration">Loan Duration in months</label>
+                    <input type="number" id="duration" name="duration" required>
+                </div>
+                <div class="form-group">
+                    <label for="purpose">Purpose of Loan</label>
+                    <textarea id="purpose" name="purpose" rows="3" required></textarea>
+                </div>
+            </fieldset>
+
+            <button type="submit" class="submit-btn">Submit Application</button>
+        </form>
+    </div>
+
+    <!-- Popup Modal -->
+    <div class="popup-overlay" id="popup-overlay"></div>
+    <div class="popup" id="popup">
+        <p id="popupMessage"></p>
+        <button class="close-btn" id="close-btn">Close</button>
+    </div>
+
+    <script>
+        // Handle form submission and display popup
+        const form = document.getElementById('loanForm');
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('popup-overlay');
+        const closeBtn = document.getElementById('close-btn');
+        const popupMessage = document.getElementById('popupMessage');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Perform form submission via Fetch API
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Display the success message
+                    popupMessage.innerText = 'Your application has been submitted successfully!';
+                    popup.classList.add('show');
+                    overlay.classList.add('show');
+
+                    // Optionally, redirect to status after a timeout
+                    setTimeout(() => {
+                        window.location.href = "{% url 'loan_status' %}"; // Change this to your status page URL
+                    }, 2000); // 2 seconds
+                } else {
+                    // Handle errors (e.g., show an error message)
+                    popupMessage.innerText = 'Submission failed. Please try again.';
+                    popup.classList.add('show');
+                    overlay.classList.add('show');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Close the popup
+        closeBtn.onclick = function() {
+            popup.classList.remove('show');
+            overlay.classList.remove('show');
+        };
+    </script>
+</body>
+</html>
